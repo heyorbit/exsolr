@@ -8,7 +8,7 @@ defmodule Exsolr.Indexer do
 
   def add(document) do
     json_docs_update_url
-    |> HTTPoison.post(encode(document), json_headers)
+    |> HTTPoison.post(encode(document), json_headers())
     |> HttpResponse.body()
   end
 
@@ -26,7 +26,7 @@ defmodule Exsolr.Indexer do
   https://cwiki.apache.org/confluence/display/solr/Uploading+Data+with+Index+Handlers#UploadingDatawithIndexHandlers-JSONFormattedIndexUpdates
   """
   def delete_by_id(id) do
-    update_request(json_headers, delete_by_id_json_body(id))
+    update_request(json_headers(), delete_by_id_json_body(id))
   end
 
   @doc """
@@ -35,7 +35,7 @@ defmodule Exsolr.Indexer do
   https://wiki.apache.org/solr/FAQ#How_can_I_delete_all_documents_from_my_index.3F
   """
   def delete_all do
-    update_request(xml_headers, delete_all_xml_body)
+    update_request(xml_headers(), delete_all_xml_body())
     commit
   end
 
@@ -43,7 +43,7 @@ defmodule Exsolr.Indexer do
   Commit changes into Solr
   """
   def commit do
-    update_request(xml_headers, commit_xml_body)
+    update_request(xml_headers(), commit_xml_body())
   end
 
   defp update_request(headers, body) do
