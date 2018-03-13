@@ -25,8 +25,10 @@ defmodule Exsolr do
   ## Example
 
       iex> Exsolr.get(q: "roses", fq: ["blue", "violet"])
-      iex> Exsolr.get(q: "red roses", defType: "disMax")
+      :tbd
 
+      iex> Exsolr.get(q: "red roses", defType: "disMax")
+      :tbd
   """
   def get(query_params) do
     Searcher.get(query_params)
@@ -38,7 +40,7 @@ defmodule Exsolr do
   ## Example
 
       iex> Exsolr.add(%{id: 1, price: 1.00})
-
+      :tbd
   """
   def add(document) do
     Indexer.add(document)

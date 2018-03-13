@@ -50,9 +50,9 @@ defmodule Exsolr.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.8.0"},
-      {:poison, "~> 2.0"},
-      {:credo, "~> 0.3", only: [:dev, :test]},
+      {:httpoison, "~> 1.0"},
+      {:poison, "~> 3.1"},
+      {:credo, "~> 0.9.0-rc8", only: [:dev, :test]},
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev},
       {:dialyxir, "~> 0.3", only: :dev}
