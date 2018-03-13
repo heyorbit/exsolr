@@ -6,11 +6,11 @@ defmodule Exsolr.Mixfile do
       app: :exsolr,
       version: "0.0.1",
       elixir: "~> 1.2",
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
       description: description,
       package: package,
-      deps: deps,
+      deps: deps
     ]
   end
 
@@ -25,8 +25,10 @@ defmodule Exsolr.Mixfile do
       files: ["lib", "mix.exs", "README.md"],
       maintainers: ["Daniel Carneiro"],
       licenses: ["MIT License (MIT)"],
-      links: %{"GitHub" => "https://github.com/dcarneiro/exsolr",
-              "Docs" => "http://hexdocs.pm/exsolr/"}
+      links: %{
+        "GitHub" => "https://github.com/dcarneiro/exsolr",
+        "Docs" => "http://hexdocs.pm/exsolr/"
+      }
     ]
   end
 
@@ -53,7 +55,7 @@ defmodule Exsolr.Mixfile do
       {:credo, "~> 0.3", only: [:dev, :test]},
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev},
-      {:dialyxir, "~> 0.3", only: :dev},
+      {:dialyxir, "~> 0.3", only: :dev}
     ]
   end
 end

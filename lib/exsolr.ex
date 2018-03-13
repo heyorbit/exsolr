@@ -16,7 +16,7 @@ defmodule Exsolr do
       %{hostname: "localhost", port: 8983, core: "elixir_test"}
   """
   def info do
-    Config.info
+    Config.info()
   end
 
   @doc """
@@ -48,7 +48,7 @@ defmodule Exsolr do
   Commits the pending changes to Solr
   """
   def commit do
-    Indexer.commit
+    Indexer.commit()
   end
 
   @doc """
@@ -64,6 +64,6 @@ defmodule Exsolr do
   https://wiki.apache.org/solr/FAQ#How_can_I_delete_all_documents_from_my_index.3F
   """
   def delete_all do
-    Indexer.delete_all
+    Indexer.delete_all()
   end
 end

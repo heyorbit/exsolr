@@ -7,7 +7,7 @@ defmodule ExsolrTest do
   end
 
   test "add a document" do
-    document = %{id: "3", title: "Doc 3" }
+    document = %{id: "3", title: "Doc 3"}
     Exsolr.add(document)
   end
 
@@ -16,6 +16,6 @@ defmodule ExsolrTest do
   end
 
   test "commit" do
-    assert Exsolr.commit
+    assert Exsolr.commit()
   end
 end

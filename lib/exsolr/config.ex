@@ -46,4 +46,3 @@ defmodule Exsolr.Config do
 
   defp base_url, do: "http://#{hostname}:#{port}/solr/#{core}"
 end
-

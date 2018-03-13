@@ -9,7 +9,7 @@ defmodule Exsolr.Indexer do
   def add(document) do
     json_docs_update_url
     |> HTTPoison.post(encode(document), json_headers)
-    |> HttpResponse.body
+    |> HttpResponse.body()
   end
 
   @doc """
@@ -47,9 +47,9 @@ defmodule Exsolr.Indexer do
   end
 
   defp update_request(headers, body) do
-    Config.update_url
+    Config.update_url()
     |> HTTPoison.post(body, headers)
-    |> HttpResponse.body
+    |> HttpResponse.body()
   end
 
   defp json_headers, do: [{"Content-Type", "application/json"}]
@@ -67,14 +67,16 @@ defmodule Exsolr.Indexer do
       ~s({"delete":{"id":"42"}})
 
   """
-  def delete_by_id_json_body(id) when is_integer(id)  do
+  def delete_by_id_json_body(id) when is_integer(id) do
     id
     |> Integer.to_string()
     |> delete_by_id_json_body
   end
+
   def delete_by_id_json_body(id) do
-    {:ok, body} = %{delete: %{id: id}}
-                  |> Poison.encode
+    {:ok, body} =
+      %{delete: %{id: id}}
+      |> Poison.encode()
 
     body
   end
@@ -82,7 +84,7 @@ defmodule Exsolr.Indexer do
   defp delete_all_xml_body, do: "<delete><query>*:*</query></delete>"
   defp commit_xml_body, do: "<commit/>"
 
-  defp json_docs_update_url, do: "#{Config.update_url}/json/docs"
+  defp json_docs_update_url, do: "#{Config.update_url()}/json/docs"
 
   defp encode(document) do
     {:ok, body} = Poison.encode(document)
