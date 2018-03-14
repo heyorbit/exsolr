@@ -101,13 +101,14 @@ defmodule Exsolr.Searcher do
           {:ok, solr_response} ->
             {:ok, solr_response}
 
-          error ->
-            error
+          {:error, reason} ->
+            Logger.error(fn -> "Solr response parse: #{inspect(reason)}" end)
+            {:error, reason}
         end
 
       {:error, reason} ->
         Logger.error(fn -> "Solr request failed: #{inspect(reason)}" end)
-        {:error}
+        {:error, reason}
     end
   end
 
@@ -119,8 +120,8 @@ defmodule Exsolr.Searcher do
       {:ok, %{"response" => response}} ->
         {:ok, response}
 
-      error ->
-        error
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
