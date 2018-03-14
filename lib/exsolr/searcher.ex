@@ -79,6 +79,7 @@ defmodule Exsolr.Searcher do
   defp build_solr_query_parameter(key, value) do
     [Atom.to_string(key), value]
     |> Enum.join("=")
+    |> URI.encode()
   end
 
   def do_search(solr_query) do
