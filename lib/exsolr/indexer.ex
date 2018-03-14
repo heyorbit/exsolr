@@ -7,7 +7,7 @@ defmodule Exsolr.Indexer do
   alias Exsolr.HttpResponse
 
   def add(document) do
-    json_docs_update_url
+    json_docs_update_url()
     |> HTTPoison.post(encode(document), json_headers())
     |> HttpResponse.body()
   end
@@ -70,7 +70,7 @@ defmodule Exsolr.Indexer do
   def delete_by_id_json_body(id) when is_integer(id) do
     id
     |> Integer.to_string()
-    |> delete_by_id_json_body
+    |> delete_by_id_json_body()
   end
 
   def delete_by_id_json_body(id) do

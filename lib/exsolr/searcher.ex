@@ -9,7 +9,7 @@ defmodule Exsolr.Searcher do
   alias Exsolr.HttpResponse
 
   def get do
-    get(default_parameters)
+    get(default_parameters())
   end
 
   @doc """
@@ -18,9 +18,9 @@ defmodule Exsolr.Searcher do
   """
   def get(params) do
     params
-    |> build_solr_query
-    |> do_search
-    |> extract_response
+    |> build_solr_query()
+    |> do_search()
+    |> extract_response()
   end
 
   @doc """
@@ -50,13 +50,13 @@ defmodule Exsolr.Searcher do
 
   defp build_solr_query_params(params) do
     params
-    |> add_default_params
+    |> add_default_params()
     |> Enum.map(fn {key, value} -> build_solr_query_parameter(key, value) end)
     |> Enum.join("&")
   end
 
   defp add_default_params(params) do
-    default_parameters
+    default_parameters()
     |> Keyword.merge(params)
   end
 
@@ -83,24 +83,44 @@ defmodule Exsolr.Searcher do
 
   def do_search(solr_query) do
     solr_query
-    |> build_solr_url
+    |> build_solr_url()
     |> HTTPoison.get()
     |> HttpResponse.body()
   end
 
   defp build_solr_url(solr_query) do
     url = Config.select_url() <> solr_query
-    _ = Logger.debug(url)
+    Logger.debug(fn -> url end)
     url
   end
 
   defp extract_response(solr_response) do
-    case solr_response |> Poison.decode() do
+    case solr_response do
+      {:ok, solr_response} ->
+        case parse_response(solr_response) do
+          {:ok, solr_response} ->
+            {:ok, solr_response}
+
+          error ->
+            error
+        end
+
+      {:error, reason} ->
+        Logger.error(fn -> "Solr request failed: #{inspect(reason)}" end)
+        {:error}
+    end
+  end
+
+  defp parse_response(solr_response) do
+    case Poison.decode(solr_response) do
       {:ok, %{"response" => response, "moreLikeThis" => more_like_this}} ->
-        Map.put(response, "mlt", extract_mlt_result(more_like_this))
+        {:ok, Map.put(response, "mlt", extract_mlt_result(more_like_this))}
 
       {:ok, %{"response" => response}} ->
-        response
+        {:ok, response}
+
+      error ->
+        error
     end
   end
 
