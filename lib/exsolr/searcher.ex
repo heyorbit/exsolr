@@ -118,6 +118,9 @@ defmodule Exsolr.Searcher do
       {:ok, %{"response" => response, "moreLikeThis" => more_like_this}} ->
         {:ok, Map.put(response, "mlt", extract_mlt_result(more_like_this))}
 
+      {:ok, %{"response" => response, "nextCursorMark" => next_cursor_mark}} ->
+        {:ok, Map.put(response, "nextCursorMark", next_cursor_mark)}
+
       {:ok, %{"response" => response}} ->
         {:ok, response}
 
