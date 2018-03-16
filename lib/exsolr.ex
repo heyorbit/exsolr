@@ -1,3 +1,16 @@
+defmodule Exsolr.Client do
+  @moduledoc """
+  Behaviour module for Exsolr client
+  """
+
+  @callback info() :: Map.t()
+  @callback get(Keyword.t()) :: Map.t()
+  @callback add(Map.t()) :: Atom.t()
+  @callback commit() :: Atom.t()
+  @callback delete_by_id(Any.t()) :: Atom.t()
+  @callback delete_all() :: Atom.t()
+end
+
 defmodule Exsolr do
   @moduledoc """
   Solr wrapper made in Elixir.
@@ -6,6 +19,8 @@ defmodule Exsolr do
   alias Exsolr.Config
   alias Exsolr.Indexer
   alias Exsolr.Searcher
+
+  @behaviour Exsolr.Client
 
   @doc """
   Returns a map containing the solr connection info
