@@ -107,6 +107,10 @@ defmodule Exsolr.Searcher do
             {:error, reason}
         end
 
+      {:error, reason, message} ->
+        Logger.error(fn -> "Solr request failed: #{inspect(reason)}" end)
+        {:error, reason, message}
+
       {:error, reason} ->
         Logger.error(fn -> "Solr request failed: #{inspect(reason)}" end)
         {:error, reason}

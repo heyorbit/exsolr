@@ -13,7 +13,8 @@ defmodule Exsolr.HttpResponse do
 
       {:ok, %HTTPoison.Response{status_code: status_code, body: response_body}} ->
         Logger.warn(fn -> "status_code: #{status_code} - #{response_body}" end)
-        {:error, status_code}
+        error_message = response_body |> Poison.decode!() |> get_in(["error", "msg"])
+        {:error, status_code, error_message}
 
       {_, %HTTPoison.Error{id: _, reason: error_reason}} ->
         Logger.error(fn -> error_reason end)
