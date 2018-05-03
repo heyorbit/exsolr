@@ -7,7 +7,7 @@ defmodule Exsolr.Client do
   @callback get(Keyword.t()) :: Map.t()
   @callback add(Map.t()) :: Atom.t()
   @callback commit() :: Atom.t()
-  @callback delete_by_id(Any.t()) :: Atom.t()
+  @callback delete_by_id(any()) :: Atom.t()
   @callback delete_all() :: Atom.t()
 end
 

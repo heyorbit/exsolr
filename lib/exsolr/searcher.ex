@@ -76,7 +76,18 @@ defmodule Exsolr.Searcher do
     "q=#{URI.encode_www_form(value)}"
   end
 
+  defp build_solr_query_parameter(:cursorMark, value) do
+    ["cursorMark", value]
+    |> Enum.join("=")
+    |> URI.encode()
+    |> String.replace("+", "%2B")
+  end
+
   defp build_solr_query_parameter(key, value) do
+    require Logger
+    Logger.debug(fn -> key end)
+    Logger.debug(fn -> value end)
+
     [Atom.to_string(key), value]
     |> Enum.join("=")
     |> URI.encode()
