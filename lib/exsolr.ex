@@ -5,6 +5,7 @@ defmodule Exsolr.Client do
 
   @callback info() :: Map.t()
   @callback get(Keyword.t()) :: Map.t()
+  @callback suggest(Keyword.t()) :: Map.t()
   @callback add(Map.t()) :: Atom.t()
   @callback commit() :: Atom.t()
   @callback delete_by_id(any()) :: Atom.t()
@@ -16,9 +17,7 @@ defmodule Exsolr do
   Solr wrapper made in Elixir.
   """
 
-  alias Exsolr.Config
-  alias Exsolr.Indexer
-  alias Exsolr.Searcher
+  alias Exsolr.{Config, Indexer, Searcher, Suggest}
 
   @behaviour Exsolr.Client
 
@@ -47,6 +46,18 @@ defmodule Exsolr do
   """
   def get(query_params) do
     Searcher.get(query_params)
+  end
+
+  @doc """
+  Send a search request to Solr.
+
+  ## Example
+
+      iex> Exsolr.suggest("suggest.q": "roses", "suggest.dictionary": "suggestDictionary")
+      :tbd
+  """
+  def suggest(query_params) do
+    Suggest.suggest(query_params)
   end
 
   @doc """

@@ -35,6 +35,17 @@ defmodule Exsolr.Config do
   def select_url, do: "#{base_url}/select"
 
   @doc """
+  Returns the base url to do `suggest` queries to solr
+
+  ## Examples
+
+      iex> Exsolr.Config.suggest_url
+      "http://localhost:8983/solr/elixir_test/suggest"
+
+  """
+  def suggest_url, do: "#{base_url}/suggest"
+
+  @doc """
   Returns the base url to do `update` queries to solr
 
   ## Examples
