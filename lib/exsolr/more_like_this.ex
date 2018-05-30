@@ -1,4 +1,4 @@
-defmodule Exsolr.Searcher do
+defmodule Exsolr.MoreLikeThis do
   @moduledoc """
   Provides search functions to Solr
   """
@@ -8,18 +8,18 @@ defmodule Exsolr.Searcher do
   alias Exsolr.Config
   alias Exsolr.HttpResponse
 
-  def get do
-    get(default_parameters())
+  def more_like_this do
+    more_like_this(default_parameters())
   end
 
   @doc """
   Receives the query params, converts them to an url, queries Solr and builds
   the response
   """
-  def get(params) do
+  def more_like_this(params) do
     params
     |> build_solr_query()
-    |> do_search()
+    |> get_more_like_this()
     |> extract_response()
   end
 
@@ -61,7 +61,7 @@ defmodule Exsolr.Searcher do
   end
 
   defp default_parameters do
-    [wt: "json", q: "*:*", start: 0, rows: 10]
+    [mlt: true, "mlt.match.include": false]
   end
 
   defp build_solr_query_parameter(_, []), do: nil
@@ -89,7 +89,7 @@ defmodule Exsolr.Searcher do
     |> URI.encode()
   end
 
-  def do_search(solr_query) do
+  def get_more_like_this(solr_query) do
     solr_query
     |> build_solr_url()
     |> HTTPoison.get()
@@ -97,7 +97,7 @@ defmodule Exsolr.Searcher do
   end
 
   defp build_solr_url(solr_query) do
-    url = Config.select_url() <> solr_query
+    url = Config.more_like_this_url() <> solr_query
     Logger.debug(fn -> url end)
     url
   end
@@ -126,22 +126,11 @@ defmodule Exsolr.Searcher do
 
   defp parse_response(solr_response) do
     case Poison.decode(solr_response) do
-      {:ok, %{"response" => response, "moreLikeThis" => more_like_this}} ->
-        {:ok, Map.put(response, "mlt", extract_mlt_result(more_like_this))}
-
-      {:ok, %{"response" => response, "nextCursorMark" => next_cursor_mark}} ->
-        {:ok, Map.put(response, "nextCursorMark", next_cursor_mark)}
-
       {:ok, %{"response" => response}} ->
         {:ok, response}
 
       {:error, reason} ->
         {:error, reason}
     end
-  end
-
-  defp extract_mlt_result(mlt) do
-    result = for k <- Map.keys(mlt), do: get_in(mlt, [k, "docs"])
-    result |> List.flatten()
   end
 end

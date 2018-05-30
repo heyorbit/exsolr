@@ -23,10 +23,10 @@ defmodule Exsolr.Mixfile do
   defp package do
     [
       files: ["lib", "mix.exs", "README.md"],
-      maintainers: ["Daniel Carneiro"],
+      maintainers: ["Adrián Quintás"],
       licenses: ["MIT License (MIT)"],
       links: %{
-        "GitHub" => "https://github.com/dcarneiro/exsolr",
+        "GitHub" => "https://github.com/qgadrian/exsolr",
         "Docs" => "http://hexdocs.pm/exsolr/"
       }
     ]
@@ -50,7 +50,7 @@ defmodule Exsolr.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.13"},
+      {:httpoison, "~> 1.1"},
       {:poison, "~> 3.1"},
       {:credo, "~> 0.9", only: [:dev, :test]},
       {:earmark, "~> 1.2", only: :dev},

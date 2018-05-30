@@ -46,6 +46,17 @@ defmodule Exsolr.Config do
   def suggest_url, do: "#{base_url}/suggest"
 
   @doc """
+  Returns the base url to do `mlt` queries to solr
+
+  ## Examples
+
+      iex> Exsolr.Config.more_like_this_url
+      "http://localhost:8983/solr/elixir_test/mlt"
+
+  """
+  def more_like_this_url, do: "#{base_url}/mlt"
+
+  @doc """
   Returns the base url to do `update` queries to solr
 
   ## Examples

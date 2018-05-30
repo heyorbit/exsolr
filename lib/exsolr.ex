@@ -6,6 +6,7 @@ defmodule Exsolr.Client do
   @callback info() :: Map.t()
   @callback get(Keyword.t()) :: Map.t()
   @callback suggest(Keyword.t()) :: Map.t()
+  @callback more_like_this(Keyword.t()) :: Map.t()
   @callback add(Map.t()) :: Atom.t()
   @callback commit() :: Atom.t()
   @callback delete_by_id(any()) :: Atom.t()
@@ -17,7 +18,7 @@ defmodule Exsolr do
   Solr wrapper made in Elixir.
   """
 
-  alias Exsolr.{Config, Indexer, Searcher, Suggest}
+  alias Exsolr.{Config, Indexer, Searcher, Suggest, MoreLikeThis}
 
   @behaviour Exsolr.Client
 
@@ -46,6 +47,21 @@ defmodule Exsolr do
   """
   def get(query_params) do
     Searcher.get(query_params)
+  end
+
+  @doc """
+  Send a more like this (mlt) request to Solr.
+
+  ## Example
+
+      iex> Exsolr.more_like_this(q: "roses", mlt.fl: ["color", "height"])
+      :tbd
+
+      iex> Exsolr.more_like_this(q: "red roses", rows: 10)
+      :tbd
+  """
+  def more_like_this(query_params) do
+    MoreLikeThis.more_like_this(query_params)
   end
 
   @doc """
